@@ -33,6 +33,7 @@
             <li><a href="{{ URL::to('/home') }}">Perfil</a></li>
             <li><a href="{{ URL::to('/home') }}">Grupo de trabajo</a></li>
             <li><a href="{{ URL::to('/home') }}">Contacto</a></li>
+            <li><a href="{{ URL::to('/enlace') }}">Enlace</a></li>
         </ul>
     </li>
     <li><a href="#"><i class="fa fa-th-list fa-2x"></i><span>Secciones</span></a>
@@ -46,7 +47,7 @@
     </li><h1></h1>
     <li><a href="{{ URL::to('/slider') }}"><i class="fa fa-toggle-right fa-2x"></i><span>Slider</span></a></li>
     <li><a href="{{ URL::to('/home') }}"><i class="fa fa-bullhorn fa-2x"></i><span>Anuncios</span></a></li>
-    <li><a href="{{ URL::to('/home') }}"><i class="fa fa-user fa-2x"></i><span>Agregar Usuarios</span></a></li>
+    <li><a href="{{ URL::to('/usuarios') }}"><i class="fa fa-user fa-2x"></i><span>Usuarios</span></a></li>
     <li><a href="{{ URL::to('/home') }}"><i class="fa fa-gears fa-2x"></i><span>Configuraci&oacute;n</span></a>
         <ul>
             <li><a href="{{ URL::to('/variables') }}">Variables</a></li>

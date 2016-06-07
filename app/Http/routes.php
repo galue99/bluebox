@@ -20,11 +20,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/home', ['as' =>'/home', 'uses' => 'HomeController@update']);
     Route::delete('/home', ['as' =>'/home', 'uses' => 'HomeController@update']);
     Route::Resource('/usuario_cms', 'UsuarioCMSController');
+    Route::post('/usuarios_cms/{id}', 'UsuarioCMSController@update');
     Route::get('/variables', 'HomeController@variables');
     Route::Resource('/variables1', 'VariablesController');
     Route::get('/slider', ['as' =>'/slider', 'uses' => 'HomeController@slider']);
     Route::post('/slider', ['as' =>'/slider', 'uses' => 'SliderController@store']);
     Route::get('/sliders', ['as' =>'/sliders', 'uses' => 'SliderController@index']);
+    Route::get('/usuarios', ['as' =>'/usuarios', 'uses' => 'HomeController@usuarios']);
 
 
 

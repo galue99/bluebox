@@ -6,7 +6,7 @@
         <!-- MENU SECUNDIARIO -->
 <div ng-controller="SliderCtrl">
     <ul id="s-menu">
-        <li><a href="" role="button" data-toggle="modal"  data-ng-click="addSlider()"><i class="fa fa-plus"></i><span>Nuevo</span></a></li>
+        <li><a href="" role="button" data-toggle="modal" data-ng-click="addSlider()"><i class="fa fa-plus" style="background-color: #89c2ea"></i><span>Nuevo</span></a></li>
     </ul>
     <br>
     <br>
@@ -20,18 +20,18 @@
             <th>Titulo</th>
             <th>Texto</th>
             <th>Descripcion</th>
+            <th>Preview</th>
             </thead>
             <tbody>
             <tr data-ng-repeat="slider in sliders">
                 <td>@{{slider.titulo}}</td>
                 <td>@{{slider.texto}}</td>
                 <td>@{{slider.descripcion}}</td>
+                <td><img ng-src="@{{slider.archivo}}" alt="" width="80px" height="80px"></td>
             </tr>
             </tbody>
         </table>
     </div>
-
-
 
     @endsection
 

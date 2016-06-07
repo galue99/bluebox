@@ -122,9 +122,10 @@ app.controller('cmsController', function($scope, $http, $uibModal, $rootScope, D
 
 });
 
-app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, $http, $rootScope) {
+app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, $http, $rootScope, Upload, $timeout, sweet) {
 
     $scope.user = {};
+    $scope.users = [];
 
     $scope.save = function (form) {
 
@@ -138,15 +139,77 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, $http, 
         }
     };
 
+
+    $scope.uploadPic = function(file) {
+        $scope.isBusy = true;
+        file.upload = Upload.upload({
+            url: '/usuario_cms',
+            data: {archivo: file, login: $scope.login, password: $scope.password,
+                permisos: $scope.permisos, email: $scope.email, nombre: $scope.nombre}
+        });
+
+        file.upload.then(function (response) {
+            $timeout(function () {
+                file.result = response.data;
+                if(file.result){
+
+                    $scope.picFile2   = '';
+
+                    $uibModalInstance.close();
+                    sweet.show('Exitoso', 'success');
+                    $rootScope.$emit("CallParentMethod", {});
+
+                }
+            });
+        }, function (response) {
+            if (response.status > 0)
+                $scope.errorMsg = response.status + ': ' + response.data;
+        }, function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        });
+    }
+
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
 });
 
-app.controller('ModalEditCtrl', function ($scope, $uibModalInstance, user, $http, $rootScope) {
+app.controller('ModalEditCtrl', function ($scope, $uibModalInstance, user, $http, $rootScope, Upload, $timeout, sweet) {
 
     $scope.user = user;
     $scope.user.password = user.re_password;
+
+    $scope.uploadPic = function(file) {
+        file.upload = Upload.upload({
+            method: 'POST',
+            url: '/usuarios_cms/' + $scope.user.id,
+            data: {archivo: file, login: $scope.user.login, password: $scope.user.password,
+                permisos: $scope.user.permisos, email: $scope.user.email, nombre: $scope.user.nombre}
+        });
+
+        file.upload.then(function (response) {
+            $timeout(function () {
+                file.result = response.data;
+                if(file.result){
+
+                    $scope.picFile2   = '';
+
+                    $uibModalInstance.close();
+                    sweet.show('Exitoso', 'success');
+                    $rootScope.$emit("CallParentMethod", {});
+
+                }
+            });
+        }, function (response) {
+            if (response.status > 0)
+                $scope.errorMsg = response.status + ': ' + response.data;
+        }, function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        });
+    }
+
 
     $scope.edit = function (form) {
 

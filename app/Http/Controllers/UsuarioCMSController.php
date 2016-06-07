@@ -50,12 +50,23 @@ class UsuarioCMSController extends Controller
 
         $user = new User();
 
+        $name = str_random(10);
+
+        $imageName = Request::file('archivo')->getClientOriginalExtension();
+
+
+        Request::file('archivo')->move(
+            base_path() . '/images/admin/', $name.'.'.$imageName
+        );
+
+
         $user->login = Request::input('login');
         $user->password = Hash::make(Request::input('password'));
         $user->re_password = Request::input('password');
         $user->nombre = Request::input('nombre');
         $user->permisos = Request::input('permisos');
         $user->email = Request::input('email');
+        $user->foto =  '/images/admin/'.$name.'.'.$imageName;
         $user->save();
 
         return Response::json([
@@ -98,14 +109,23 @@ class UsuarioCMSController extends Controller
     public function update(Request $request, $id)
     {
 
-       var_dump(Request::all());
         $user = User::find($id);
+
+        $name = str_random(10);
+
+        $imageName = Request::file('archivo')->getClientOriginalExtension();
+
+        Request::file('archivo')->move(
+            base_path() . '/images/admin/', $name.'.'.$imageName
+        );
+
         $user->login = Request::input('login');
-        $user->password = Hash::make(Request::input('re_password'));
-        $user->re_password = Request::input('re_password');
+        $user->password = Hash::make(Request::input('password'));
+        $user->re_password = Request::input('password');
         $user->nombre = Request::input('nombre');
         $user->permisos = Request::input('permisos');
         $user->email = Request::input('email');
+        $user->foto =  '/images/admin/'.$name.'.'.$imageName;
         $user->save();
 
 

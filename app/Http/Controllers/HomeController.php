@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return View::make('home.index');
+        return View::make('home.home');
     }
 
     /**
@@ -108,6 +108,11 @@ class HomeController extends Controller
     public function slider()
     {
         return View::make('home.slider');
+    }
+
+    public function usuarios()
+    {
+        return View::make('home.index');
     }
 
 }

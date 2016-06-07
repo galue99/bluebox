@@ -20,7 +20,7 @@
 <div class="text-center" style="padding-left: 15px; padding-right: 15px;">
     <table class="table" data-ng-init="init()" datatable="ng" dt-options="dtOptions" class="table table-hover">
         <thead>
-        <th>Username</th>
+        <th>Usuario</th>
         <th>Nombre</th>
         <th>Email</th>
         <th>Permisos</th>
@@ -34,7 +34,7 @@
                 <td>@{{user.permisos}}</td>
                 <td>
                     <button class="btn btn-warning btn-xs btn-detail" data-ng-click="editUser(user)">Editar</button>
-                    <button class="btn btn-danger btn-xs btn-delete" ng-click="deleteUser(user.id)">Eliminar</button>
+                    <button class="btn btn-danger btn-xs btn-delete" data-ng-click="deleteUser(user.id)">Eliminar</button>
                 </td>
             </tr>
         </tbody>
@@ -55,9 +55,80 @@
         <div class="modal-body">
             <form class="form-horizontal" name="userForm" novalidate data-ng-cloak>
                 <div class="form-group" data-ng-class="{ 'has-error' : (userForm.login.$invalid || server.response.data.errors.login) && submitted }">
-                    <label for="inputLinkPp" class="hidden-xs col-sm-3 control-label">Login:</label>
+                    <label for="inputLinkPp" class="hidden-xs col-sm-3 control-label">Usuario:</label>
                     <div class="input-group col-sm-6 xs-margin">
-                        <input type="text" ng-model="user.login" name="login" ng-minlength="3" class="form-control" id="inputLinkPp" placeholder="Login" required/>
+                        <input type="text" ng-model="login" name="login" ng-minlength="3" class="form-control" id="inputLinkPp" placeholder="Usuario" required/>
+                        <p data-ng-show="userForm.login.$error.required && submitted" class="help-block error-message">* Este campo es requerido.</p>
+                    </div>
+                </div>
+                <div class="form-group" data-ng-class="{ 'has-error' : (userForm.password.$invalid || server.response.data.errors.password) && submitted }">
+                    <label for="inputLinkPp" class="hidden-xs col-sm-3 control-label">Password:</label>
+                    <div class="input-group col-sm-6 xs-margin">
+                        <input type="password" ng-model="password" name="password" class="form-control" placeholder="Password" required/>
+                        <p data-ng-show="userForm.password.$error.required && submitted" class="help-block error-message">* Este campo es requerido.</p>
+                    </div>
+                </div>
+                <div class="form-group" data-ng-class="{ 'has-error' : (userForm.nombre.$invalid || server.response.data.errors.nombre) && submitted }">
+                    <label for="inputLinkPp" class="hidden-xs col-sm-3 control-label">Nombre:</label>
+                    <div class="input-group col-sm-6 xs-margin">
+                        <input type="text" ng-model="nombre" name="nombre" class="form-control" id="inputLinkPp" placeholder="Nombre" required/>
+                        <p data-ng-show="userForm.nombre.$error.required && submitted" class="help-block error-message">* Este campo es requerido.</p>
+                    </div>
+                </div>
+                <div class="form-group" data-ng-class="{ 'has-error' : (userForm.permisos.$invalid || server.response.data.errors.permisos) && submitted }">
+                    <label for="inputLinkPp" class="hidden-xs col-sm-3 control-label">Permisos:</label>
+                    <div class="input-group col-sm-6 xs-margin">
+                        <select ng-model="permisos" name="permisos" class="form-control" required>
+                            <option value="Super Admin">Super Admin</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Editor">Editor</option>
+                        </select>
+                        <p data-ng-show="userForm.permisos.$error.required && submitted" class="help-block error-message">* Este campo es requerido.</p>
+                    </div>
+                </div>
+                <div class="form-group" data-ng-class="{ 'has-error' : (userForm.email.$invalid || server.response.data.errors.email) && submitted }">
+                    <label for="inputLinkPp" class="hidden-xs col-sm-3 control-label">Email:</label>
+                    <div class="input-group col-sm-6 xs-margin">
+                        <input type="email" ng-model="email" name="email" class="form-control" id="inputLinkPp" placeholder="Email" required/>
+                        <p data-ng-show="userForm.email.$error.required && submitted" class="help-block error-message">* Este campo es requerido.</p>
+                    </div>
+                </div>
+                <div class="form-group" data-ng-class="{ 'has-error' : (userForm.file2.$invalid || server.response.data.errors.file2) && submitted }">
+                    <label for="inputLinkPp" class="hidden-xs col-sm-3 control-label">Foto:</label>
+                    <div class="input-group col-sm-6 xs-margin">
+                        <input type="file" ngf-select ng-model="picFile2" name="file2"
+                               accept="image/*" ngf-max-size="2MB" required
+                               ngf-model-invalid="errorFile">
+                        <p data-ng-show="userForm.file2.$error.required && submitted" class="help-block error-message">* Este campo es requerido.</p>
+                        <p data-ng-show="userForm.file2.$error.maxSize && submitted" class="help-block error-message">* Este campo es requerido.</p>
+                    </div>
+                </div>
+                <button ng-disabled="!userForm.$valid"
+                        ng-click="uploadPic(picFile2)" class="btn btn-primary">Submit</button>
+                    <span class="progress" ng-show="picFile.progress >= 0">
+                        <div style="width:@{{picFile.progress}}" ng-bind="picFile.progress + '%'"></div>
+                    </span>
+                <span ng-show="picFile2.result">Upload Successful</span>
+                <span class="err" ng-show="errorMsg">@{{errorMsg}}</span>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancelar</button>
+        </div>
+    </script>
+</div>
+
+<div ng-controller="cmsController">
+    <script type="text/ng-template" id="myModalContent1.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Editar Usuario</h3>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" name="userForm" novalidate data-ng-cloak>
+                <div class="form-group" data-ng-class="{ 'has-error' : (userForm.login.$invalid || server.response.data.errors.login) && submitted }">
+                    <label for="inputLinkPp" class="hidden-xs col-sm-3 control-label">Usuario:</label>
+                    <div class="input-group col-sm-6 xs-margin">
+                        <input type="text" ng-model="user.login" name="login" ng-minlength="3" class="form-control" id="inputLinkPp" placeholder="Usuario" required/>
                         <p data-ng-show="userForm.login.$error.required && submitted" class="help-block error-message">* Este campo es requerido.</p>
                     </div>
                 </div>
@@ -93,65 +164,26 @@
                         <p data-ng-show="userForm.email.$error.required && submitted" class="help-block error-message">* Este campo es requerido.</p>
                     </div>
                 </div>
+                <div class="form-group" data-ng-class="{ 'has-error' : (userForm.file2.$invalid || server.response.data.errors.file2) && submitted }">
+                    <label for="inputLinkPp" class="hidden-xs col-sm-3 control-label">Foto:</label>
+                    <div class="input-group col-sm-6 xs-margin">
+                        <input type="file" ngf-select ng-model="picFile2" name="file2"
+                               accept="image/*" ngf-max-size="2MB" required
+                               ngf-model-invalid="errorFile">
+                        <p data-ng-show="userForm.file2.$error.required && submitted" class="help-block error-message">* Este campo es requerido.</p>
+                        <p data-ng-show="userForm.file2.$error.maxSize && submitted" class="help-block error-message">* Este campo es requerido.</p>
+                    </div>
+                </div>
+                <button ng-disabled="!userForm.$valid"
+                        ng-click="uploadPic(picFile2)" class="btn btn-primary">Submit</button>
+                    <span class="progress" ng-show="picFile.progress >= 0">
+                        <div style="width:@{{picFile.progress}}" ng-bind="picFile.progress + '%'"></div>
+                    </span>
+                <span ng-show="picFile2.result">Upload Successful</span>
+                <span class="err" ng-show="errorMsg">@{{errorMsg}}</span>
             </form>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" type="submit" ng-click="save(userForm)">Guardar</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancelar</button>
-        </div>
-    </script>
-</div>
-
-<div ng-controller="cmsController">
-    <script type="text/ng-template" id="myModalContent1.html">
-        <div class="modal-header">
-            <h3 class="modal-title">Editar Usuario</h3>
-        </div>
-        <div class="modal-body">
-            <form class="form-horizontal" name="userForm" novalidate data-ng-cloak>
-                <div class="form-group" data-ng-class="{ 'has-error' : (userForm.login.$invalid || server.response.data.errors.login) && submitted }">
-                    <label for="inputLinkPp" class="hidden-xs col-sm-3 control-label">Login:</label>
-                    <div class="input-group col-sm-6 xs-margin">
-                        <input type="text" ng-model="user.login" name="login" ng-minlength="3" class="form-control" id="inputLinkPp" placeholder="Login" required/>
-                        <p data-ng-show="userForm.login.$error.required && submitted" class="help-block error-message">* Este campo es requerido.</p>
-                    </div>
-                </div>
-                <div class="form-group" data-ng-class="{ 'has-error' : (userForm.password.$invalid || server.response.data.errors.password) && submitted }">
-                    <label for="inputLinkPp" class="hidden-xs col-sm-3 control-label">Password:</label>
-                    <div class="input-group col-sm-6 xs-margin">
-                        <input type="password" ng-model="user.re_password" name="password" class="form-control" placeholder="Password" required/>
-                        <p data-ng-show="userForm.password.$error.required && submitted" class="help-block error-message">* Este campo es requerido.</p>
-                    </div>
-                </div>
-                <div class="form-group" data-ng-class="{ 'has-error' : (userForm.nombre.$invalid || server.response.data.errors.nombre) && submitted }">
-                    <label for="inputLinkPp" class="hidden-xs col-sm-3 control-label">Nombre:</label>
-                    <div class="input-group col-sm-6 xs-margin">
-                        <input type="text" ng-model="user.nombre" name="nombre" class="form-control" id="inputLinkPp" placeholder="Nombre" required/>
-                        <p data-ng-show="userForm.nombre.$error.required && submitted" class="help-block error-message">* Este campo es requerido.</p>
-                    </div>
-                </div>
-                <div class="form-group" data-ng-class="{ 'has-error' : (userForm.permisos.$invalid || server.response.data.errors.permisos) && submitted }">
-                    <label for="inputLinkPp" class="hidden-xs col-sm-3 control-label">Permisos:</label>
-                    <div class="input-group col-sm-6 xs-margin">
-                        <select ng-model="user.permisos" name="permisos" class="form-control" required>
-                            <option value="Super Admin">Super Admin</option>
-                            <option value="Admin">Admin</option>
-                            <option value="Editor">Editor</option>
-                        </select>
-                        <p data-ng-show="userForm.permisos.$error.required && submitted" class="help-block error-message">* Este campo es requerido.</p>
-                    </div>
-                </div>
-                <div class="form-group" data-ng-class="{ 'has-error' : (userForm.email.$invalid || server.response.data.errors.email) && submitted }">
-                    <label for="inputLinkPp" class="hidden-xs col-sm-3 control-label">Email:</label>
-                    <div class="input-group col-sm-6 xs-margin">
-                        <input type="email" ng-model="user.email" name="email" class="form-control" id="inputLinkPp" placeholder="Email" required/>
-                        <p data-ng-show="userForm.email.$error.required && submitted" class="help-block error-message">* Este campo es requerido.</p>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="submit" ng-click="edit(userForm)">Guardar</button>
             <button class="btn btn-warning" type="button" ng-click="cancel()">Cancelar</button>
         </div>
     </script>

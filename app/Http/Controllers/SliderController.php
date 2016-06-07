@@ -55,22 +55,22 @@ class SliderController extends Controller
         $imageName2 = $request->file('thumbs')->getClientOriginalExtension();
 
         $request->file('archivo')->move(
-            base_path() . '/public/images/admin/', $name.'.'.$imageName
+            base_path() . '/images/admin/', $name.'.'.$imageName
         );
         $request->file('icono')->move(
-            base_path() . '/public/images/admin/', $name.'1.'.$imageName1
+            base_path() . '/images/admin/', $name.'1.'.$imageName1
         );
         $request->file('thumbs')->move(
-            base_path() . '/public/images/admin/', $name.'2.'.$imageName2
+            base_path() . '/images/admin/', $name.'2.'.$imageName2
         );
 
         $slider->titulo = $titulo;
         $slider->descripcion = $descripcion;
         $slider->texto = $texto;
         $slider->nivel = $nivel;
-        $slider->archivo = '/public/images/admin/'.$name.'.'.$imageName;
-        $slider->icono = '/public/images/admin/'.$name.'1.'.$imageName;
-        $slider->thumb = '/public/images/admin/'.$name.'2.'.$imageName;
+        $slider->archivo = '/images/admin/'.$name.'.'.$imageName;
+        $slider->icono = '/images/admin/'.$name.'1.'.$imageName;
+        $slider->thumb = '/images/admin/'.$name.'2.'.$imageName;
         $slider->save();
 
 
