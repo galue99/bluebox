@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/slider', ['as' =>'/slider', 'uses' => 'SliderController@store']);
     Route::get('/sliders', ['as' =>'/sliders', 'uses' => 'SliderController@index']);
     Route::get('/usuarios', ['as' =>'/usuarios', 'uses' => 'HomeController@usuarios']);
+    Route::get('/alianzas', ['as' =>'/alianzas', 'uses' => 'HomeController@alianzas']);
 
 
 

@@ -33,7 +33,7 @@
             <li><a href="{{ URL::to('/home') }}">Perfil</a></li>
             <li><a href="{{ URL::to('/home') }}">Grupo de trabajo</a></li>
             <li><a href="{{ URL::to('/home') }}">Contacto</a></li>
-            <li><a href="{{ URL::to('/enlace') }}">Enlace</a></li>
+            <li><a href="{{ URL::to('/alianzas') }}">Alianza</a></li>
         </ul>
     </li>
     <li><a href="#"><i class="fa fa-th-list fa-2x"></i><span>Secciones</span></a>

@@ -2,20 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\View;
-use Request;
-use Mail;
+use App\Alianza;
+use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\User;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Response;
-use Validator;
 
-
-class HomeController extends Controller
+class AlianzaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +16,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return View::make('home.home');
+        $alianzas = Alianza::all();
+        return $alianzas;
     }
 
     /**
@@ -45,7 +38,7 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -79,7 +72,7 @@ class HomeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**
@@ -90,35 +83,7 @@ class HomeController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
 
-
-    /**
-     * function recovery password.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    public function variables()
-    {
-        return View::make('home.variables');
-    }
-
-    public function slider()
-    {
-        return View::make('home.slider');
-    }
-
-    public function usuarios()
-    {
-        return View::make('home.index');
-    }
-
-    public function alianzas()
-    {
-        return View::make('home.alianza');
     }
 
 }
-

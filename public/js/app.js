@@ -479,6 +479,120 @@ app.controller('ModalFileCtrl', function ($scope, $uibModalInstance, $http, $roo
     };
 });
 
+app.controller('AlianzasController', function($scope, $http, $uibModal, $rootScope, DTOptionsBuilder, sweet) {
+
+    $scope.alianzas = [];
+    $scope.loading = false;
+
+    $scope.dtOptions = DTOptionsBuilder.newOptions()
+        .withDisplayLength(5)
+        .withOption('bLengthChange', false);
+
+    $scope.initVariable = function() {
+        $scope.loading = true;
+        $http.get('/alianzas').
+        success(function(data, status, headers, config) {
+            $scope.variables = data;
+            console.log($scope.variables);
+            $scope.loading = false;
+
+        });
+    };
+
+    $scope.updateUser = function(todo) {
+        $scope.loading = true;
+
+        $http.put('/home' + todo.id, {
+            title: todo.title,
+            done: todo.done
+        }).success(function(data, status, headers, config) {
+            todo = data;
+            $scope.loading = false;
+
+        });;
+    };
+
+    $scope.deleteVariable = function(index) {
+        $scope.loading = true;
+
+        sweet.show({
+            title: 'Confirmar',
+            text: 'Borrar este Articulo',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Si, Borrar',
+            closeOnConfirm: false,
+            closeOnCancel: false
+        }, function(isConfirm) {
+            if (isConfirm) {
+                // var user = $scope.user[index];
+                $http.delete('/variables1/' + index)
+                    .success(function() {
+                        $scope.initVariable();
+                        $scope.loading = false;
+
+                    });
+                sweet.show('Borrado!', 'Ha sido Borrado con Exito.', 'success');
+            }else{
+                sweet.show('Cancelar', ':)', 'error');
+            }
+        });
+
+    };
+
+
+    $scope.animationsEnabled = true;
+
+    $scope.addVariables = function (size) {
+
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myModalContent.html',
+            controller: 'ModalAddVariableCtrl',
+            size: size
+
+        });
+
+        modalInstance.result.then(function () {
+
+        }, function () {
+
+        });
+    };
+
+
+    $scope.editVariable = function (variable) {
+
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myModalContent1.html',
+            controller: 'ModalEditVariableCtrl',
+            size: 'md',
+            resolve: {
+                variable: function () {
+                    return variable;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+
+        }, function () {
+
+        });
+    };
+
+    $rootScope.$on("CallParentMethod1", function(){
+        $scope.initVariable();
+    });
+
+
+    $scope.toggleAnimation = function () {
+        $scope.animationsEnabled = !$scope.animationsEnabled;
+    };
+
+});
 
 
 
