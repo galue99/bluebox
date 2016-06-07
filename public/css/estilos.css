@@ -1,0 +1,307 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,300);
+/* CSS Document */
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, i, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, #header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+/*HTML5 display-role reset for older browsers*/
+article, aside, details, figcaption, figure, footer, #header, hgroup, menu, nav, section, main {
+	display: block;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+html {
+	background-color: #f0f5f7;
+}
+body {
+	width: 100%;
+	height: 100%;
+	background-color: #f0f5f7!important;
+	font-family: 'Open Sans', sans-serif;
+}
+
+::-webkit-input-placeholder {
+ color: #333;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+ color: #333;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+ color: #333;
+}
+
+:-ms-input-placeholder {
+ color: #333;
+}
+*, *::after, *::before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+*::after, *::before {
+	content: '';
+}
+.fix {
+	clear: both;
+}
+/* ====== menu===== */
+#header {
+	width: 100%;
+	background: #fff;
+	box-shadow: 1px 1px 2px #c7d2d5;
+	float: left;
+	height: 50px;
+	margin-bottom: 30px;
+	position: relative;
+	z-index: 1;
+}
+#header li {
+	float: left;
+	padding: 5px 0;
+	height: 50px;
+}
+#header li a {
+	text-decoration: none;
+	color: #999;
+	float: left;
+}
+#header li.perfil {
+	float: right;
+	background: #e4e8ea;
+	padding: 5px 20px;
+}
+#header li.perfil span {
+	margin-right: 19px;
+	line-height: 21px;
+}
+#header li.notificaciones {
+	margin-left: 20px;
+	line-height: 40px;
+}
+#header li.notificaciones div {
+	background: red;
+	color: #fff;
+	font-weight: 700;
+	font-size: 70%;
+	margin-bottom: -20px;
+	margin-left: 10px;
+	padding: 2px;
+	border-radius: 50%;
+	min-width: 20px;
+	min-height: 20px;
+	line-height: 15px;
+	text-align: center;
+	z-index: 5;
+	position: absolute;
+}
+#header li.notificaciones i {
+	float: left;
+	font-size: 90%;
+	margin-right: 20px;
+	line-height: 40px;
+	color: #333;
+}
+#header li img {
+	float: left;
+	height: 40px;
+}
+/*  ======  submenu ====== */
+#header li ul {
+	display: none;
+	width: 150px;
+	background: #fff;
+	box-shadow: 1px 1px 2px #c7d2d5;
+	right: 0;
+	top: 50px;
+	position: absolute;
+	z-index: 10000000;
+	box-shadow: 5px 5px 10px #e1e1e1;
+}
+#header li:hover ul {
+	display: block;
+}
+#header li ul li {
+	float: left;
+	width: 100%;
+	padding: 0;
+	height: inherit
+}
+#header li ul li a {
+	padding: 10px;
+	font-size: 95%;
+	width: 100%;
+}
+#header li ul li:last-child a {
+	border-top: 1px solid #e1e1e1;
+}
+#header li ul li a:hover, #header li ul li a:hover span {
+	background: #007eff;
+	color: #fff;
+}
+#header li ul li:last-child a:hover {
+	border-top: 1px solid #fff;
+}
+#header li ul li a span {
+	font-size: 120%;
+	line-height: 20px;
+}
+#header li ul li a i {
+	margin-right: 20px;
+}
+#header li i.fa-chevron-down {
+	line-height: 40px;
+	color: #333;
+	margin-left: 10px;
+}
+/* =========== MENU LATERAL  =========== */
+#menu {
+	width: 130px;
+	background: #0a4e99;
+	float: left;
+	height: 100vh;
+	z-index: 99;
+	position: absolute;
+}
+#menu li {
+	float: left;
+	margin-bottom: 20px;
+	text-align: center;
+	width: 100%;
+	padding: 0 5px;
+}
+#menu li.logo {
+	background-color: #fff;
+	border-right: 1px solid #e1e1e1;
+	width: 130px;
+	padding: 10px 5px;
+	display: block;
+	height: 50px;
+}
+#menu li a {
+	color: #6eaef4;
+	text-decoration: none;
+	font-size: 80%;
+	width: 100%;
+}
+#menu li a span, #menu li a i {
+	float: left;
+	width: 100%;
+}
+#menu li a span i {
+	font-size: 180%;
+}
+#menu li a:hover {
+	color: #fff;
+}
+#menu li ul {
+	display: none;
+	width: 170px;
+	background: #fff;
+	position: absolute;
+	left: 130px;
+	z-index: 100000;
+	padding: 0;
+	box-shadow: 5px 5px 10px #e1e1e1;
+}
+#menu li:hover ul {
+	display: block;
+}
+#menu li ul li {
+	float: left;
+	margin-bottom: 0px;
+	text-align: left;
+}
+#menu li ul li a {
+	color: #999;
+	float: left;
+	padding: 5px 10px;
+}
+#menu li ul li a:hover {
+	background: #007eff;
+	color: #fff;
+}
+/* =========== contenido =========== */
+#bk-content {
+	width: 100%;
+	float: left;
+	height: 100vh;
+	padding-left: 130px;
+	/*overflow: scroll;*/
+}
+#s-menu {
+	float: left;
+	margin-bottom: 30px;
+	width: 100%;
+}
+#s-menu li {
+	float: left;
+	text-align: center;
+	width: 100px;
+}
+#s-menu li a {
+	float: left;
+	text-decoration: none;
+	color: #777;
+	font-weight: 300;
+	font-size: 90%;
+}
+#s-menu li a i {
+	border-radius: 50%;
+	float: left;
+	height: 50px;
+	width: 50px;
+	margin-left: 25px;
+	color: #fff;
+	padding: 10px;
+	font-size: 130%;
+	line-height: 30px;
+	-webkit-transition: all .25s ease-out;
+	transition: all .25s ease-out
+}
+#s-menu li a span {
+	width: 100%;
+	float: left;
+}
+#s-menu li:first-child a i {
+	background-color: #FC6;
+}
+#s-menu li a:hover i {
+	opacity: 0.7;
+	-webkit-transition: all .25s ease-out;
+	transition: all .25s ease-out
+}
+#s-menu li:nth-child(2) a i {
+	background-color: #89c2ea;
+}
+#s-menu li:nth-child(3) a i {
+	background-color: #74e1cb;
+}
+footer {
+	font-size: 75%;
+	color: #777;
+	text-align: center;
+	margin-bottom: 30px;
+	float: left;
+	width: 100%;
+}
+
+
+/* =========== LIST =========== */
+#bk-list { width:35%; float:left; background:#fff; padding:10px; margin-bottom:30px; margin-right:20px;}

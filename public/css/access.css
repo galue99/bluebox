@@ -1,0 +1,161 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,300);
+/* CSS Document */
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+/*HTML5 display-role reset for older browsers*/
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, main {
+	display: block;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+body {
+	width: 100%;
+	height: 100%;
+	background-color: #0a4e99;
+	font-family: 'Open Sans', sans-serif;
+}
+
+::-webkit-input-placeholder {
+ color: #b3c7f4;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+ color: #b3c7f4;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+ color: #b3c7f4;
+}
+
+:-ms-input-placeholder {
+ color: #b3c7f4;
+}
+*, *::after, *::before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+*::after, *::before {
+	content: '';
+}
+.fix {
+	clear: both;
+}
+/* ====== LOGIN ===== */
+form {
+	width: 300px;
+	margin: 130px auto 0 auto;
+	text-align: center;
+}
+div {
+	float: left;
+	clear: both;
+	text-align: center;
+	width: 100%;
+}
+i {
+	float: left;
+	width: 10%;
+	height: 39px;
+	padding: 8px 5px 5px 5px;
+	color: #fff;
+	float: left;
+}
+img {
+	margin-bottom: 50px;
+	height: 60px;
+}
+p {
+	float: left;
+	clear: both;
+	text-align: center;
+	width: 100%;
+	border-bottom: 1px solid #fff;
+}
+p:hover {
+	border-bottom: 1px solid #00a8ff;
+}
+input[type=text], input[type=email], input[type=password] {
+	border: 0;
+	background-color: transparent;
+	padding: 5px;
+	height: 40px;
+	font-size: 100%;
+	width: 90%;
+	color: #fff;
+	float: left;
+	font-weight: 300;
+	font-family: 'Open Sans', sans-serif;
+}
+p:nth-child(3) {
+	margin-bottom: 20px;
+}
+input[type=submit] {
+	cursor: pointer;
+	background: #11345a;
+	color: #fff;
+	border: 0;
+	float: left;
+	font-size: 100%;
+	height: 40px;
+	margin-bottom: 30px;
+	width: 100%;
+	font-weight: 300;
+	margin-top: 30px;
+	font-family: 'Open Sans', sans-serif;
+}
+input[type=submit]:hover {
+	background-color: #00a8ff;
+}
+input[type=checkbox] {
+	float: left;
+	display: inline;
+	margin-right: 10px;
+}
+label {
+	float: left;
+	font-size: 90%;
+	display: inline;
+	color: #b3c7f4;
+	font-weight: 300;
+}
+a {
+	color: #b3c7f4;
+	text-decoration: none;
+	font-size: 100%;
+	margin-bottom: 10px;
+	clear: both;
+	display: block;
+}
+a:hover, label:hover {
+	color: #fff;
+	cursor: pointer;
+}
+a.register {
+	padding: 5px 10px;
+	border: 1px solid #000;
+}
+
+/* ::::::: smaller than 480 :::::::: */
+@media screen and (max-width: 480px) {
+form {
+	margin-top: 20px;
+}
+}
