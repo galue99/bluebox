@@ -120,5 +120,10 @@ class HomeController extends Controller
         return View::make('home.alianza');
     }
 
+    public function principal()
+    {
+        return View::make('home.principal');
+    }
+
 }
 

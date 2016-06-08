@@ -29,11 +29,11 @@
     <li><a href="{{ URL::to('/home') }}"><i class="fa fa-tachometer fa-2x"></i><span>Tablero</span></a></li>
     <li><a href="#"><i class="fa fa-th-large fa-2x"></i><span>Contenido</span></a>
         <ul>
-            <li><a href="{{ URL::to('/home') }}">P&aacute;gina principal</a></li>
+            <li><a href="{{ URL::to('/principal') }}">P&aacute;gina principal</a></li>
             <li><a href="{{ URL::to('/home') }}">Perfil</a></li>
             <li><a href="{{ URL::to('/home') }}">Grupo de trabajo</a></li>
             <li><a href="{{ URL::to('/home') }}">Contacto</a></li>
-            <li><a href="{{ URL::to('/alianzas') }}">Alianza</a></li>
+            <li><a href="{{ URL::to('/alianza') }}">Alianza</a></li>
         </ul>
     </li>
     <li><a href="#"><i class="fa fa-th-list fa-2x"></i><span>Secciones</span></a>
@@ -78,6 +78,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <script src="{!! asset('js/angular-datatables.min.js') !!}"></script>
     <script src="{!! asset('js/ng-file-upload.js') !!}"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <!-- TinyMCE -->
+    <script type="text/javascript" src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+    <!-- AngularJS -->
+    <!-- AngularJS Sanitize -->
+    <script type="text/javascript" src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular-sanitize.min.js'></script>
     <script src="{!! asset('js/ngSweetAlert.js') !!}"></script>
     <script src="{!! asset('js/ui-bootstrap-tpls-1.3.3.min.js') !!}"></script>
     <script src="{!! asset('js/app.js') !!}"></script>

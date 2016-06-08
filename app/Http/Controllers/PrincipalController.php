@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Alianza;
+use App\Principal;
 use Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Response;
 
-class AlianzaController extends Controller
+class PrincipalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class AlianzaController extends Controller
      */
     public function index()
     {
-        $alianzas = Alianza::all();
-        return $alianzas;
+        $principal = Principal::all();
+        return $principal;
     }
 
     /**
@@ -39,22 +39,11 @@ class AlianzaController extends Controller
      */
     public function store(Request $request)
     {
-        $alianza = new Alianza();
+        $principal = new Principal();
 
-        $name = str_random(10);
-
-        $imageName = Request::file('archivo')->getClientOriginalExtension();
-
-
-        Request::file('archivo')->move(
-            base_path() . '/images/admin/', $name.'.'.$imageName
-        );
-
-
-        $alianza->titulo = Request::input('titulo');
-        $alianza->url =    Request::input('url');
-        $alianza->logo =   '/images/admin/'.$name.'.'.$imageName;
-        $alianza->save();
+        $principal->titulo = Request::input('titulo');
+        $principal->texto =    Request::input('from_one');
+        $principal->save();
 
         return Response::json([
             'Success' => [
@@ -95,22 +84,12 @@ class AlianzaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $alianza = Alianza::find($id);
 
-        $name = str_random(10);
+        $principal = Principal::find($id);
 
-        $imageName = Request::file('archivo')->getClientOriginalExtension();
-
-
-        Request::file('archivo')->move(
-            base_path() . '/images/admin/', $name.'.'.$imageName
-        );
-
-
-        $alianza->titulo = Request::input('titulo');
-        $alianza->url =    Request::input('url');
-        $alianza->logo =   '/images/admin/'.$name.'.'.$imageName;
-        $alianza->save();
+        $principal->titulo = Request::input('titulo');
+        $principal->texto =    Request::input('from_one');
+        $principal->save();
 
         return Response::json([
             'Success' => [
@@ -128,10 +107,9 @@ class AlianzaController extends Controller
      */
     public function destroy($id)
     {
-        $alianza = Alianza::find($id);
-        $alianza->delete();
+        $principal = Principal::find($id);
+        $principal->delete();
 
         return 'Success';
     }
-
 }

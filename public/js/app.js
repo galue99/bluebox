@@ -488,21 +488,38 @@ app.controller('AlianzasController', function($scope, $http, $uibModal, $rootSco
         .withDisplayLength(5)
         .withOption('bLengthChange', false);
 
-    $scope.initVariable = function() {
+    $scope.initAlianzas = function() {
         $scope.loading = true;
         $http.get('/alianzas').
         success(function(data, status, headers, config) {
-            $scope.variables = data;
-            console.log($scope.variables);
+            $scope.alianzas  = data;
             $scope.loading = false;
 
         });
     };
 
-    $scope.updateUser = function(todo) {
+    $scope.addAlianza = function (size) {
+
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myModalContent.html',
+            controller: 'ModalAlianzaCtrl',
+            size: size
+
+        });
+
+        modalInstance.result.then(function () {
+
+        }, function () {
+
+        });
+    };
+
+
+    $scope.updateAlianzas = function(todo) {
         $scope.loading = true;
 
-        $http.put('/home' + todo.id, {
+        $http.put('/alianzas' + todo.id, {
             title: todo.title,
             done: todo.done
         }).success(function(data, status, headers, config) {
@@ -512,7 +529,7 @@ app.controller('AlianzasController', function($scope, $http, $uibModal, $rootSco
         });;
     };
 
-    $scope.deleteVariable = function(index) {
+    $scope.deleteAlianzas = function(index) {
         $scope.loading = true;
 
         sweet.show({
@@ -527,30 +544,151 @@ app.controller('AlianzasController', function($scope, $http, $uibModal, $rootSco
         }, function(isConfirm) {
             if (isConfirm) {
                 // var user = $scope.user[index];
-                $http.delete('/variables1/' + index)
+                $http.delete('/alianzas/' + index)
                     .success(function() {
-                        $scope.initVariable();
-                        $scope.loading = false;
-
+                        $scope.initAlianzas();
                     });
                 sweet.show('Borrado!', 'Ha sido Borrado con Exito.', 'success');
             }else{
                 sweet.show('Cancelar', ':)', 'error');
             }
         });
+    };
+    $scope.editAlianza = function (variable) {
 
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myModalContent1.html',
+            controller: 'ModalEditAlianzaCtrl',
+            size: 'md',
+            resolve: {
+                variable: function () {
+                    return variable;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+
+        }, function () {
+
+        });
+    };
+
+    $rootScope.$on("alianza", function(){
+        $scope.initAlianzas();
+    });
+
+
+    $scope.toggleAnimation = function () {
+        $scope.animationsEnabled = !$scope.animationsEnabled;
+    };
+
+});
+
+app.controller('ModalAlianzaCtrl', function ($scope, $uibModalInstance, $http, $rootScope, Upload, $timeout, sweet) {
+
+    $scope.uploadPic = function(file) {
+        $scope.isBusy = true;
+        file.upload = Upload.upload({
+            url: '/alianzas',
+            data: {archivo: file, titulo: $scope.titulo, url: $scope.url}
+        });
+
+        file.upload.then(function (response) {
+            $timeout(function () {
+                file.result = response.data;
+                if(file.result){
+
+                    $scope.picFile1   = '';
+                    $scope.picFile2   = '';
+                    $scope.picFile3   = '';
+                    $uibModalInstance.close();
+                    sweet.show('Exitoso', 'success');
+
+                    $scope.sliders = [];
+                    $rootScope.$emit("alianza", {});
+
+
+
+
+                }
+            });
+        }, function (response) {
+            if (response.status > 0)
+                $scope.errorMsg = response.status + ': ' + response.data;
+        }, function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        });
+    }
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
     };
 
 
-    $scope.animationsEnabled = true;
+});
 
-    $scope.addVariables = function (size) {
+
+app.controller('ModalEditAlianzaCtrl', function ($scope, $uibModalInstance, variable, $http, $rootScope, Upload) {
+
+    $scope.alianzas = variable;
+
+    //console.log(user);
+
+    $scope.uploadPic = function(file) {
+        file.upload = Upload.upload({
+            method: 'POST',
+            url: '/alianzas/' + $scope.alianzas.id,
+            data: {archivo: file, titulo: $scope.alianzas.titulo, url: $scope.alianzas.url}
+        });
+
+        file.upload.then(function (response) {
+            $timeout(function () {
+                file.result = response.data;
+                if(file.result){
+
+                    $scope.picFile   = '';
+
+                    $uibModalInstance.close();
+                    sweet.show('Exitoso', 'success');
+
+                    $rootScope.$emit("alianza", {});
+
+                }
+            });
+        }, function (response) {
+            if (response.status > 0)
+                $scope.errorMsg = response.status + ': ' + response.data;
+        }, function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        });
+    }
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+app.controller('principalCtrl', function ($scope, $uibModal, $http, $rootScope, sweet) {
+
+    $scope.principals = [];
+    $scope.initPrincipals = function() {
+        $http.get('/principals').
+        success(function(data, status, headers, config) {
+            $scope.principals = data;
+        });
+    };
+
+    $scope.addPrincipal = function (size) {
 
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'myModalContent.html',
-            controller: 'ModalAddVariableCtrl',
-            size: size
+            controller: 'ModalEditPrincipalCtrl',
+            size: 'lg'
 
         });
 
@@ -562,11 +700,11 @@ app.controller('AlianzasController', function($scope, $http, $uibModal, $rootSco
     };
 
 
-    $scope.editVariable = function (variable) {
+    $scope.editPrincipals = function (variable) {
 
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: 'myModalContent1.html',
+            templateUrl: 'myModalContent.html',
             controller: 'ModalEditVariableCtrl',
             size: 'md',
             resolve: {
@@ -583,17 +721,143 @@ app.controller('AlianzasController', function($scope, $http, $uibModal, $rootSco
         });
     };
 
-    $rootScope.$on("CallParentMethod1", function(){
-        $scope.initVariable();
-    });
+    $scope.deletePrincipals = function(index) {
+        $scope.loading = true;
 
-
-    $scope.toggleAnimation = function () {
-        $scope.animationsEnabled = !$scope.animationsEnabled;
+        sweet.show({
+            title: 'Confirmar',
+            text: 'Borrar este Articulo',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Si, Borrar',
+            closeOnConfirm: false,
+            closeOnCancel: false
+        }, function(isConfirm) {
+            if (isConfirm) {
+                // var user = $scope.user[index];
+                $http.delete('/principals/' + index)
+                    .success(function() {
+                        $scope.initPrincipals();
+                    });
+                sweet.show('Borrado!', 'Ha sido Borrado con Exito.', 'success');
+            }else{
+                sweet.show('Cancelar', ':)', 'error');
+            }
+        });
     };
 
+    $rootScope.$on("principals", function(){
+        $scope.initPrincipals();
+    });
+
+});
+app.controller('ModalPrincipalCtrl', function ($scope, $uibModalInstance, $http, $rootScope, sweet, $rootScope) {
+
+    $scope.save = function (form) {
+
+        $scope.submitted = true;
+        if (form.$valid) {
+            $http.post('/principals', $scope.principal)
+                .success(function(data, status, headers, config) {
+                    $rootScope.$emit("principals", {});
+                    sweet.show('Exitoso', 'success');
+                });
+            $uibModalInstance.close();
+        }
+
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 });
 
+app.controller('ModalEditVariableCtrl', function ($scope, $uibModalInstance, variable, $http, $rootScope, sweet) {
+
+    $scope.principal = variable;
+
+    //console.log(user);
+
+    $scope.edit = function (form) {
+
+        $scope.submitted = true;
+        if (form.$valid) {
+            $http.put('/principals/' + $scope.principal.id, $scope.principal)
+                .success(function(data, status, headers, config) {
+                    $rootScope.$emit("principals", {});
+                    sweet.show('Exitoso', 'success');
+                });
+
+            $uibModalInstance.close();
+
+        }
+
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+app.value('uiTinymceConfig', {})
+app.directive('uiTinymce', ['uiTinymceConfig', function(uiTinymceConfig) {
+    uiTinymceConfig = uiTinymceConfig || {};
+    var generatedIds = 0;
+    return {
+        require: 'ngModel',
+        link: function(scope, elm, attrs, ngModel) {
+            var expression, options, tinyInstance;
+            // generate an ID if not present
+            if (!attrs.id) {
+                attrs.$set('id', 'uiTinymce' + generatedIds++);
+            }
+            options = {
+                // Update model when calling setContent (such as from the source editor popup)
+                setup: function(ed) {
+                    ed.on('init', function(args) {
+                        ngModel.$render();
+                    });
+                    // Update model on button click
+                    ed.on('ExecCommand', function(e) {
+                        ed.save();
+                        ngModel.$setViewValue(elm.val());
+                        if (!scope.$$phase) {
+                            scope.$apply();
+                        }
+                    });
+                    // Update model on keypress
+                    ed.on('KeyUp', function(e) {
+                        console.log(ed.isDirty());
+                        ed.save();
+                        ngModel.$setViewValue(elm.val());
+                        if (!scope.$$phase) {
+                            scope.$apply();
+                        }
+                    });
+                },
+                mode: 'exact',
+                elements: attrs.id
+            };
+            if (attrs.uiTinymce) {
+                expression = scope.$eval(attrs.uiTinymce);
+            } else {
+                expression = {};
+            }
+            angular.extend(options, uiTinymceConfig, expression);
+            setTimeout(function() {
+                tinymce.init(options);
+            });
 
 
-
+            ngModel.$render = function() {
+                if (!tinyInstance) {
+                    tinyInstance = tinymce.get(attrs.id);
+                }
+                if (tinyInstance) {
+                    tinyInstance.setContent(ngModel.$viewValue || '');
+                }
+            };
+        }
+    };
+}]);
