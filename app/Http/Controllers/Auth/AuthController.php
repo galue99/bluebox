@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Requests\Auth\LoginRequest;
 use App\User;
 use Validator;
+use Request;
+use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -28,7 +31,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = 'blue';
 
     /**
      * Create a new authentication controller instance.
@@ -67,6 +70,18 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+        ]);
+    }
+
+
+    protected function postLogin(Request $request) {
+        if (Auth::attempt(['login' => Request::input('username'), 'password' => Request::input('password')])) {
+
+            return redirect()->guest('/home');
+        }
+
+        return redirect('/login')->withErrors([
+            'email' => 'The email or the password is invalid. Please try again.',
         ]);
     }
 }

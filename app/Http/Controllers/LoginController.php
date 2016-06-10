@@ -71,7 +71,7 @@ class LoginController extends Controller
 
         if (Auth::attempt(['login' => $request['username'], 'password' => $request['password']])) {
 
-            return redirect()->route('/home');
+            return Redirect::to('/home');
         }
 
         return redirect('/login')->withErrors([

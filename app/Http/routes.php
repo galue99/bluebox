@@ -35,7 +35,20 @@ Route::group(['middleware' => ['auth']], function () {
     Route::Resource('/principals', 'PrincipalController');
     Route::get('/principal', ['as' =>'/principal', 'uses' => 'HomeController@principal']);
 
+    Route::Resource('/articulos', 'ArticulosController');
+    Route::get('/articulo', ['as' =>'/articulo', 'uses' => 'HomeController@articulo']);
 
+    Route::get('/secciones', ['as' =>'/secciones', 'uses' => 'HomeController@secciones']);
+    Route::Resource('/tipos', 'TiposController');
+
+    Route::get('/contacto', ['as' =>'/contacto', 'uses' => 'HomeController@contacto']);
+    Route::Resource('/contactos', 'ContactosController');
+
+    Route::get('/categoria', ['as' =>'/categoria', 'uses' => 'HomeController@categorias']);
+    Route::Resource('/categorias', 'CategoriasController');
+
+    Route::get('/subcategoria', ['as' =>'/subcategoria', 'uses' => 'HomeController@subcategoria']);
+    Route::Resource('/subcategorias', 'SubCategoriasController');
 
 
 });
@@ -45,6 +58,5 @@ Route::post('/recovery', 'LoginController@password_recovery');
 //Route::Resource('/login', 'LoginController');
 //Route::Resource('/login', ['as' =>'/login', 'uses' => 'LoginController']);
 
-
 Route::get('/login', ['as' =>'/login', 'uses' => 'LoginController@index']);
-Route::post('/login', ['as' =>'/login', 'uses' => 'LoginController@store']);
+Route::post('/login', 'Auth\AuthController@postLogin');

@@ -472,7 +472,7 @@ app.controller('ModalFileCtrl', function ($scope, $uibModalInstance, $http, $roo
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
         });
-    }
+    };
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
@@ -687,7 +687,7 @@ app.controller('principalCtrl', function ($scope, $uibModal, $http, $rootScope, 
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'myModalContent.html',
-            controller: 'ModalEditPrincipalCtrl',
+            controller: 'ModalPrincipalCtrl',
             size: 'lg'
 
         });
@@ -705,7 +705,7 @@ app.controller('principalCtrl', function ($scope, $uibModal, $http, $rootScope, 
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'myModalContent.html',
-            controller: 'ModalEditVariableCtrl',
+            controller: 'ModalEditPrincipalCtrl',
             size: 'md',
             resolve: {
                 variable: function () {
@@ -752,6 +752,107 @@ app.controller('principalCtrl', function ($scope, $uibModal, $http, $rootScope, 
     });
 
 });
+
+app.controller('tiposCtrl', function ($scope, $uibModal, $http, $rootScope, sweet) {
+
+    $scope.tipos = [];
+    $scope.initTipos = function() {
+        $http.get('/tipos').
+        success(function(data, status, headers, config) {
+            $scope.tipos = data;
+        });
+    };
+
+});
+
+app.controller('articuloCtrl', function ($scope, $uibModal, $http, $rootScope, sweet, DTOptionsBuilder) {
+
+    $scope.dtOptions = DTOptionsBuilder.newOptions()
+        .withDisplayLength(4)
+        .withOption('bLengthChange', true);
+
+    $scope.articulos = [];
+    $scope.initArticulos = function() {
+        $http.get('/articulos').
+        success(function(data, status, headers, config) {
+            $scope.articulos = data;
+        });
+    };
+
+    $scope.addArticulos = function (size) {
+
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myModalContent.html',
+            controller: 'ModalArticuloCtrl',
+            size: 'lg'
+
+        });
+
+        modalInstance.result.then(function () {
+
+        }, function () {
+
+        });
+    };
+
+
+
+    $scope.detailsArticulo = function(id) {
+        console.log("articulo/"+ id+"");
+
+        window.location = "articulos/"+ id+"";
+
+    };
+
+
+});
+app.controller('ModalArticuloCtrl', function ($scope, $uibModalInstance, $http, $rootScope, sweet, $rootScope, Upload, $timeout) {
+
+    $scope.uploadPic = function(file, file1, file2) {
+        $scope.isBusy = true;
+        file.upload = Upload.upload({
+            url: '/articulos',
+            data: {audio: file1, imagen:file, thumbs:file2, titulo: $scope.titulo, pie: $scope.texto,
+                contenido: $scope.from_one, video: $scope.video, status: $scope.status }
+        });
+
+        file.upload.then(function (response) {
+            $timeout(function () {
+                file.result = response.data;
+                if(file.result){
+
+                    $scope.picFile1   = '';
+                    $scope.picFile2   = '';
+                    $scope.picFile3   = '';
+                    $uibModalInstance.close();
+                    sweet.show('Exitoso', 'success');
+
+                    $scope.articulos = [];
+
+                    $http.get('/articulos').
+                    success(function(data, status, headers, config) {
+                        $scope.articulos = data;
+                    });
+
+
+
+                }
+            });
+        }, function (response) {
+            if (response.status > 0)
+                $scope.errorMsg = response.status + ': ' + response.data;
+        }, function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        });
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
 app.controller('ModalPrincipalCtrl', function ($scope, $uibModalInstance, $http, $rootScope, sweet, $rootScope) {
 
     $scope.save = function (form) {
@@ -773,7 +874,7 @@ app.controller('ModalPrincipalCtrl', function ($scope, $uibModalInstance, $http,
     };
 });
 
-app.controller('ModalEditVariableCtrl', function ($scope, $uibModalInstance, variable, $http, $rootScope, sweet) {
+app.controller('ModalEditPrincipalCtrl', function ($scope, $uibModalInstance, variable, $http, $rootScope, sweet) {
 
     $scope.principal = variable;
 
@@ -799,7 +900,440 @@ app.controller('ModalEditVariableCtrl', function ($scope, $uibModalInstance, var
         $uibModalInstance.dismiss('cancel');
     };
 });
+app.controller('contactoCtrl', function ($scope, $uibModal, $http, $rootScope, sweet, DTOptionsBuilder) {
 
+    $scope.dtOptions = DTOptionsBuilder.newOptions()
+        .withDisplayLength(4)
+        .withOption('bLengthChange', true);
+
+    $scope.contactos = [];
+    $scope.initContactos = function() {
+        $http.get('/contactos').
+        success(function(data, status, headers, config) {
+            $scope.contactos = data;
+        });
+    };
+
+    $scope.addContacto = function (size) {
+
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myModalContent.html',
+            controller: 'ModalContactoCtrl',
+            size: 'lg'
+
+        });
+
+        modalInstance.result.then(function () {
+
+        }, function () {
+
+        });
+    };
+
+
+    $scope.editContacto = function (variable) {
+
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myModalContent1.html',
+            controller: 'ModalEditContactoCtrl',
+            size: 'md',
+            resolve: {
+                variable: function () {
+                    return variable;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+
+        }, function () {
+
+        });
+    };
+
+    $scope.deleteContacto = function(index) {
+        $scope.loading = true;
+
+        sweet.show({
+            title: 'Confirmar',
+            text: 'Borrar este Articulo',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Si, Borrar',
+            closeOnConfirm: false,
+            closeOnCancel: false
+        }, function(isConfirm) {
+            if (isConfirm) {
+                // var user = $scope.user[index];
+                $http.delete('/contactos/' + index)
+                    .success(function() {
+                        $scope.initContactos();
+                    });
+                sweet.show('Borrado!', 'Ha sido Borrado con Exito.', 'success');
+            }else{
+                sweet.show('Cancelar', ':)', 'error');
+            }
+        });
+    };
+
+    $rootScope.$on("contactos", function(){
+        $scope.initContactos();
+    });
+
+});
+app.controller('ModalContactoCtrl', function ($scope, $uibModalInstance, $http, $rootScope, sweet, $rootScope) {
+    $scope.save = function (form) {
+        $scope.submitted = true;
+        if (form.$valid) {
+            $http.post('/contactos', $scope.contacto)
+                .success(function(data, status, headers, config) {
+                    $rootScope.$emit("contactos", {});
+                    sweet.show('Exitoso', 'success');
+                });
+            $uibModalInstance.close();
+        }
+
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+app.controller('ModalEditContactoCtrl', function ($scope, $uibModalInstance, variable, $http, $rootScope, sweet) {
+
+    $scope.contacto = variable;
+
+    //console.log(user);
+
+    $scope.edit = function (form) {
+
+        $scope.submitted = true;
+        if (form.$valid) {
+            $http.put('/contactos/' + $scope.contacto.id, $scope.contacto)
+                .success(function(data, status, headers, config) {
+                    $rootScope.$emit("contactos", {});
+                    sweet.show('Exitoso', 'success');
+                });
+
+            $uibModalInstance.close();
+
+        }
+
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+app.controller('categoriaController', function ($scope, $uibModal, $http, $rootScope, sweet, DTOptionsBuilder) {
+
+    $scope.dtOptions = DTOptionsBuilder.newOptions()
+        .withDisplayLength(4)
+        .withOption('bLengthChange', true);
+
+    $scope.categorias = [];
+    $scope.initCategorias = function() {
+        $http.get('/categorias').
+        success(function(data, status, headers, config) {
+            $scope.categorias = data;
+        });
+    };
+
+    $scope.addCategoria = function (size) {
+
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myModalContent.html',
+            controller: 'ModalCategoriaCtrl',
+            size: 'lg'
+
+        });
+
+        modalInstance.result.then(function () {
+
+        }, function () {
+
+        });
+    };
+
+
+    $scope.editCategorias = function (variable) {
+
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myModalContent1.html',
+            controller: 'ModalEditCategoriaCtrl',
+            size: 'md',
+            resolve: {
+                variable: function () {
+                    return variable;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+
+        }, function () {
+
+        });
+    };
+
+    $scope.deleteCategorias = function(index) {
+        $scope.loading = true;
+
+        sweet.show({
+            title: 'Confirmar',
+            text: 'Borrar esta Categoria',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Si, Borrar',
+            closeOnConfirm: false,
+            closeOnCancel: false
+        }, function(isConfirm) {
+            if (isConfirm) {
+                // var user = $scope.user[index];
+                $http.delete('/categorias/' + index)
+                    .success(function() {
+                        $scope.initCategorias();
+                    });
+                sweet.show('Borrado!', 'Ha sido Borrado con Exito.', 'success');
+            }else{
+                sweet.show('Cancelar', ':)', 'error');
+            }
+        });
+    };
+
+    $rootScope.$on("categorias", function(){
+        $scope.initCategorias();
+    });
+
+});
+
+app.controller('ModalCategoriaCtrl', function ($scope, $uibModalInstance, $http, $rootScope, sweet, $rootScope) {
+
+    $scope.tipos = [];
+        $http.get('/tipos').
+        success(function(data, status, headers, config) {
+            $scope.tipos = data;
+        });
+
+
+    $scope.save = function (form) {
+        $scope.submitted = true;
+        $scope.categoria1 = {
+            tipo: $scope.categoria.seccion.id,
+            nombre : $scope.categoria.nombre
+        };
+        if (form.$valid) {
+            $http.post('/categorias', $scope.categoria1)
+                .success(function(data, status, headers, config) {
+                    $rootScope.$emit("categorias", {});
+                    sweet.show('Exitoso', 'success');
+                });
+            $uibModalInstance.close();
+        }
+
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+app.controller('ModalEditCategoriaCtrl', function ($scope, $uibModalInstance, variable, $http, $rootScope, sweet) {
+
+    $scope.categoria = variable;
+
+    //console.log(user);
+    $scope.tipos = [];
+    $http.get('/tipos').
+    success(function(data, status, headers, config) {
+        $scope.tipos = data;
+    });
+
+
+
+
+
+    $scope.edit = function (form) {
+
+        $scope.submitted = true;
+        if (form.$valid) {
+            $scope.categoria1 = {
+                tipo: $scope.categoria.seccion.id,
+                nombre : $scope.categoria.nombre
+            };
+            $http.put('/categorias/' + $scope.categoria.id, $scope.categoria1)
+                .success(function(data, status, headers, config) {
+                    $rootScope.$emit("categorias", {});
+                    sweet.show('Exitoso', 'success');
+                });
+
+            $uibModalInstance.close();
+
+        }
+
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+app.controller('subcategoriaController', function ($scope, $uibModal, $http, $rootScope, sweet, DTOptionsBuilder) {
+
+    $scope.dtOptions = DTOptionsBuilder.newOptions()
+        .withDisplayLength(4)
+        .withOption('bLengthChange', true);
+
+    $scope.subcategorias = [];
+    $scope.initSubcategorias = function() {
+        $http.get('/subcategorias').
+        success(function(data, status, headers, config) {
+            $scope.subcategorias = data;
+        });
+    };
+
+    $scope.addSubCategoria = function (size) {
+
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myModalContent.html',
+            controller: 'ModalSubCategoriaCtrl',
+            size: 'md'
+
+        });
+
+        modalInstance.result.then(function () {
+
+        }, function () {
+
+        });
+    };
+
+
+    $scope.editSubCategorias = function (variable) {
+
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myModalContent1.html',
+            controller: 'ModalEditSubCategoriaCtrl',
+            size: 'md',
+            resolve: {
+                variable: function () {
+                    return variable;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+
+        }, function () {
+
+        });
+    };
+
+    $scope.deleteSubCategorias = function(index) {
+        $scope.loading = true;
+
+        sweet.show({
+            title: 'Confirmar',
+            text: 'Borrar esta SubCategoria',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Si, Borrar',
+            closeOnConfirm: false,
+            closeOnCancel: false
+        }, function(isConfirm) {
+            if (isConfirm) {
+                // var user = $scope.user[index];
+                $http.delete('/subcategorias/' + index)
+                    .success(function() {
+                        $scope.initSubcategorias();
+                    });
+                sweet.show('Borrado!', 'Ha sido Borrado con Exito.', 'success');
+            }else{
+                sweet.show('Cancelar', ':)', 'error');
+            }
+        });
+    };
+
+    $rootScope.$on("subcategorias", function(){
+        $scope.initSubcategorias();
+    });
+
+});
+app.controller('ModalSubCategoriaCtrl', function ($scope, $uibModalInstance, $http, $rootScope, sweet, $rootScope) {
+
+    $scope.categorias = [];
+    $http.get('/categorias').
+    success(function(data, status, headers, config) {
+        $scope.categorias = data;
+    });
+
+
+    $scope.save = function (form) {
+        $scope.submitted = true;
+        console.log($scope.subcategoria);
+        $scope.subcategoria1 = {
+            categoria: $scope.subcategoria.categorias.id,
+            nombre : $scope.subcategoria.nombre
+        };
+        if (form.$valid) {
+            $http.post('/subcategorias', $scope.subcategoria1)
+                .success(function(data, status, headers, config) {
+                    $rootScope.$emit("subcategorias", {});
+                    sweet.show('Exitoso', 'success');
+                });
+            $uibModalInstance.close();
+        }
+
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+app.controller('ModalEditSubCategoriaCtrl', function ($scope, $uibModalInstance, variable, $http, $rootScope, sweet) {
+
+    $scope.subcategoria = variable;
+
+    $scope.categorias = [];
+    $http.get('/categorias').
+    success(function(data, status, headers, config) {
+        $scope.categorias = data;
+    });
+
+    $scope.edit = function (form) {
+
+        $scope.submitted = true;
+        if (form.$valid) {
+
+            $scope.categoria1 = {
+                tipo: $scope.subcategoria.categorias.id,
+                nombre : $scope.subcategoria.nombre
+            };
+            $http.put('/subcategorias/' + $scope.subcategoria.id, $scope.categoria1)
+                .success(function(data, status, headers, config) {
+                    $rootScope.$emit("subcategorias", {});
+                    sweet.show('Exitoso', 'success');
+                });
+
+            $uibModalInstance.close();
+
+        }
+
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
 app.value('uiTinymceConfig', {})
 app.directive('uiTinymce', ['uiTinymceConfig', function(uiTinymceConfig) {
     uiTinymceConfig = uiTinymceConfig || {};

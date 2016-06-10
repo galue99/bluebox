@@ -125,5 +125,30 @@ class HomeController extends Controller
         return View::make('home.principal');
     }
 
+    public function secciones()
+    {
+        return View::make('home.secciones');
+    }
+
+    public function articulo()
+    {
+        return View::make('home.articulo');
+    }
+
+    public function contacto()
+    {
+        return View::make('home.contacto');
+    }
+
+    public function categorias()
+    {
+        return View::make('home.categoria');
+    }
+
+    public function subcategoria()
+    {
+        return View::make('home.subcategorias');
+    }
+
 }
 

@@ -32,17 +32,16 @@
             <li><a href="{{ URL::to('/principal') }}">P&aacute;gina principal</a></li>
             <li><a href="{{ URL::to('/home') }}">Perfil</a></li>
             <li><a href="{{ URL::to('/home') }}">Grupo de trabajo</a></li>
-            <li><a href="{{ URL::to('/home') }}">Contacto</a></li>
+            <li><a href="{{ URL::to('/contacto') }}">Contacto</a></li>
             <li><a href="{{ URL::to('/alianza') }}">Alianza</a></li>
         </ul>
     </li>
-    <li><a href="#"><i class="fa fa-th-list fa-2x"></i><span>Secciones</span></a>
+    <li><a href="{{ URL::to('/secciones') }}"><i class="fa fa-th-list fa-2x"></i><span>Secciones</span></a>
         <ul>
-            <li><a href="{{ URL::to('/home') }}">Tipos</a></li>
-            <li><a href="{{ URL::to('/home') }}">Categor&iacute;as</a></li>
-            <li><a href="{{ URL::to('/home') }}">Sub Categor&iacute;as</a></li>
+            <li><a href="{{ URL::to('/categoria') }}">Categor&iacute;as</a></li>
+            <li><a href="{{ URL::to('/subcategoria') }}">Sub Categor&iacute;as</a></li>
             <li><a href="{{ URL::to('/home') }}">Secci&oacute;n</a></li>
-            <li><a href="{{ URL::to('/home') }}">Art&iacute;culos</a></li>
+            <li><a href="{{ URL::to('/articulo') }}">Art&iacute;culos</a></li>
         </ul>
     </li><h1></h1>
     <li><a href="{{ URL::to('/slider') }}"><i class="fa fa-toggle-right fa-2x"></i><span>Slider</span></a></li>
